@@ -2,6 +2,7 @@ import express from "express";
 import verifyNameFieldMid from "./middlewares/verifyNameField-middleware.js";
 import routers from "./routes/routes.js";
 import auth from "./middlewares/auth.middleware.js";
+import db from "./database/db.js";
 
 const app = express();
 
