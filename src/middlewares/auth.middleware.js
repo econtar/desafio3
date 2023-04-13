@@ -1,4 +1,4 @@
-import { Jwt } from "jsonwebtoken";
+import jwt  from "jsonwebtoken";
 
 export default function auth(req, res, next) {
     const { token } = req.headers;

@@ -1,7 +1,9 @@
 import { psicologo } from "./models-psic.js";
 import { paciente } from "./models-pac.js";
 import { atendimento } from "./models-atend.js";
-import { BelongsTo } from "sequelize";
+
+paciente.hasMany(atendimento);
+psicologo.hasMany(atendimento);
 
 atendimento.BelongsTo(paciente, {
     foreignKey: "paciente_id",

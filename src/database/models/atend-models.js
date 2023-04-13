@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize";
-import { db } from "../db.js";
+import db from "../db.js";
 import { psicMod } from "./psic-models.js";
 import { pacMod } from "./pac-models.js";
 
@@ -25,7 +25,7 @@ export const atendMod = db.define('tabela_atendimentos', {
         allowNull: false,
         references: {
             model: psicMod,
-            key: 'id'
+            key: 'id',
         }
     },
     paciente_id: {

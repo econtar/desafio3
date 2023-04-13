@@ -13,9 +13,8 @@ export const findAllPsicRep = async () => {
 
 // FIND ONE
 export const findOnePsicRep = async (id) => {
-    const buscarPsicRep = await psicMod.findOne({ where: { id } });
-
-    return buscarPsicRep;
+    //const buscarPsicRep = await psicMod.findOne({ where: { id } });
+    return await psicMod.findByPk(id);
 };
 
 // UPDATE

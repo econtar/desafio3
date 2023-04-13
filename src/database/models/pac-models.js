@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize";
-import { db } from "../db.js";
+import db from "../db.js";
 
 export const pacMod = db.define('tabela_pacientes', {
 

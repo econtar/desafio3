@@ -5,7 +5,6 @@ import { createPacRep, deletePacRep, findAllPacRep, findOnePacRep, updatePacRep 
 // INSERT 
 export const createPacCont = async (req, res) => {
     try {
-        const { id } = req.headers;
         const { nome, email, idade } = req.body;
 
         const novoPac = await createPacRep(nome, email, idade);
@@ -17,7 +16,7 @@ export const createPacCont = async (req, res) => {
 }
 
 // FIND ALL
-export const findALlPacCont = async (req, res) => {
+export const findAllPacCont = async (req, res) => {
     try {
         const listarPac = await findAllPacRep();
         return res.status(200).json({ listarPac });
@@ -28,7 +27,7 @@ export const findALlPacCont = async (req, res) => {
 
 // FIND ONE
 export const findOnePacCont = async (req, res) => {
-    const { id } = req.params;
+    const { id } = req.params.id;
 
     const buscarPac = await findOnePacRep(id);
 
@@ -41,10 +40,10 @@ export const findOnePacCont = async (req, res) => {
 
 // UPDATE
 export const updatePacCont = async (req, res) => {
-    const { id } = req.headers;
+    const { id } = req.params.id;
     const { nome, email, idade } = req.body;
 
-    const atualizarPac = await updatePacRep(nome, email, idade);
+    const atualizarPac = await updatePacRep(id, nome, email, idade);
 
     if (!atualizarPac) {
         return res.status(404).json({ message: "ID não encontrado." })

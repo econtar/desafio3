@@ -5,15 +5,27 @@ import auth from "./middlewares/auth.middleware.js";
 import db from "./database/db.js";
 
 const app = express();
-
 const PORT = 3333;
 
 app.use(express.json());
+
+try {
+    await db.sync({ alter:true});
+    console.log("A conexão com o banco de dados foi realizada com sucesso!");
+    
+    app.listen(PORT, () => {
+        console.log("O servidor está rodando na porta 3333");
+    })
+} catch (error) {
+    console.log("Não foi possível conectar com o banco de dados: ",error);
+    process.exit(1);
+}
+
+app.use(routers);
+
+/*
 app.use(auth);
 app.post('/login', login)
-app.use(routers);
-app.use(verifyNameFieldMid);
 
-app.listen(PORT, () => {
-    console.log(`Server running in localhost:${PORT}`)
-})
+app.use(verifyNameFieldMid);
+*/
