@@ -1,27 +1,41 @@
+import { findPsicologoByEmail } from "../repositories/psic.repository.js";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs/dist/bcrypt.js";
+import {psicMod} from "../database/models/psic-models.js";
 
-import { isPasswordValid } from '../core/utils/crypt.js';
-import { signJwt } from '../core/utils/jwt.js';
-import { invalidEmailOrPassword } from '../errors/standardErrorResponses.js';
-import { findPsicologoByEmail } from '../reposirories/psicologos.repository.js';
+const jwtsecret = process.env.JWT_SECRET;
 
-export const login = async (req, res, next) => {
+export const login = async (req, res) => {
+    console.log("Teste da função login");
+    const email = req.body.email;
+    const senha = req.body.senha;
     try {
-        const { email, senha } = req.body;
-
-        const user = await findPsicologoByEmail(email, true);
-
-        if (!user || !isPasswordValid(senha, user.senha)) {
-            return res.status(401).json({ message: invalidEmailOrPassword });
-        }
-
-        const Authorization = signJwt({
-            id: user.id,
-            email: user.email,
-            nome: user.nome,
+        const psic = await psicMod.findOne({
+            where:{email,},
         });
+        console.log("Encontrou o psicologo");
+        /*const {emailPsi} = psic.email;
+        const {senhaPsi} = psic.senha;*/
+        console.log(email);
+        console.log(senha);
+        console.log(psic);
+        const senhaValida = bcrypt.compareSync(senha, psic.senha);
+        //console.log(emailPsi);
+        //console.log(senhaPsi);
 
-        return res.status(200).json({ Authorization });
+        if (psic!=null && senhaValida==true) {
+            console.log("Validou usuário e senha");
+            const token = jwt.sign(
+                { id: psic.id, email: psic.email, nome: psic.nome },
+                jwtsecret,
+                { expiresIn: 86400 }
+            );
+            return res.status(200).send({ auth: true, token: token });
+        }else{
+            return res.status(401).json({ message: "e-mail ou senha inválidos!" });
+        }
+        //return res.status(200).json({message:"Testando autenticação: ", data: psic});
     } catch (error) {
-        next(error);
+        return res.status(500).json({message: "Falha na autenticação: ", error});
     }
 };

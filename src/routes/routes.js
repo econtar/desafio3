@@ -1,7 +1,7 @@
 import express from "express";
 
 // IMPORTAR CONTROLLERS - LOGIN
-
+import {login} from "../controllers/login.controller.js"
 
 // IMPORTAR CONTROLLERS - PSICÓLOGOS
 import { createPsicCont, findAllPsicCont, findOnePsicCont, updatePsicCont, deletePsicCont } from "../controllers/psic.controller.js";
@@ -21,7 +21,7 @@ routers.get("/health", (req, res) =>{
 });
 
 // CRUD LOGIN (post)
-//routers.post('/login', login)
+routers.post('/login', login);
 
 // CRUD PSICÓLOGOS
 routers.post('/psicologos', verifyNameFieldMid, createPsicCont);

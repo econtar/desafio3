@@ -8,13 +8,21 @@ export const createPsicRep = async (nome, email, senha, apresentacao) => {
 
 // FIND ALL
 export const findAllPsicRep = async () => {
-    return await psicMod.findAll();
+    return await psicMod.findAll({
+        attributes:{
+            exclude: ["senha"],
+        },
+    });
 };
 
 // FIND ONE
 export const findOnePsicRep = async (id) => {
     //const buscarPsicRep = await psicMod.findOne({ where: { id } });
-    return await psicMod.findByPk(id);
+    return await psicMod.findByPk(id,{
+        attributes:{
+            exclude: ["senha"],
+        },
+    });
 };
 
 // UPDATE
@@ -30,3 +38,11 @@ export const updatePsicRep = async (id, nome, email, senha, apresentacao) => {
 export const deletePsicRep = async (id) => {
     await psicMod.destroy({ where: { id } });
 };
+
+export const findPsicologoByEmail = async (emailLogin) => {
+    await psicMod.findOne({
+        where:{
+            email: emailLogin
+        }
+    });
+}
