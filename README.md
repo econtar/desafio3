@@ -1,2 +1,8 @@
 # desafio3
 Desafio 3 XP
+
+Desafio Gama XP 49 Grupo 4:
+EDUARDO CONTAR
+GUSTAVO LEMOS 
+LÍVIA ALCÂNTARA
+HÉBER BRITO
