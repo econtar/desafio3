@@ -8,7 +8,6 @@ export default class LoginController {
     static async login(request, response) {
         try {
             const { email, senha } = request.body;
-            //console.log("O e-mail fornecido foi: ", email, request.body.email);
             const user = await PsicologoRepository.findOne({
                 where: {
                     email,
