@@ -1,18 +1,20 @@
 import express from "express";
 
 // IMPORTAR CONTROLLERS - LOGIN
-import {login} from "../controllers/login.controller.js"
+import loginController from "../controllers/loginController.js"
 
 // IMPORTAR CONTROLLERS - PSICÓLOGOS
-import { createPsicCont, findAllPsicCont, findOnePsicCont, updatePsicCont, deletePsicCont } from "../controllers/psic.controller.js";
+import { createPsicCont, findAllPsicCont, findOnePsicCont, updatePsicCont, deletePsicCont } from "../controllers/psicologoController.js";
 
 // IMPORTAR CONTROLLERS - PACIENTES
-import { createPacCont, findAllPacCont, findOnePacCont, updatePacCont, deletePacCont } from "../controllers/pac.controller.js";
+import { createPacCont, findAllPacCont, findOnePacCont, updatePacCont, deletePacCont } from "../controllers/pacienteController.js";
 
 // IMPORTAR CONTROLLERS - ATENDIMENTOS
-import { createAtendCont, findALlAtendCont, findOneAtendCont, updateAtendCont, deleteAtendCont } from "../controllers/atend.controller.js";
-import verifyNameFieldMid from "../middlewares/verifyNameField-middleware.js";
+import { createAtendCont, findAllAtendCont, findOneAtendCont, updateAtendCont, deleteAtendCont } from "../controllers/atendimentoController.js";
 
+// IMPORTAR MIDDLEWARES
+import verifyNameFieldMid from "../middlewares/verifyNameField-middleware.js";
+import verifyToken from "../middlewares/verifyToken.js";
 const routers = express.Router();
 
 //Verifica a saúde da aplicação
@@ -21,7 +23,7 @@ routers.get("/health", (req, res) =>{
 });
 
 // CRUD LOGIN (post)
-routers.post('/login', login);
+routers.post('/login', loginController.login);
 
 // CRUD PSICÓLOGOS
 routers.post('/psicologos', verifyNameFieldMid, createPsicCont);
@@ -38,9 +40,11 @@ routers.put('/pacientes/:id', updatePacCont);
 routers.delete('/pacientes/:id', deletePacCont);
 
 // CRUD ATENDIMENTOS
-routers.post('/atendimentos', createAtendCont);
-routers.get('/atendimentos', findALlAtendCont);
-routers.get('/atendimentos/:id', findOneAtendCont);
+routers.post('/atendimentos', verifyToken, createAtendCont);
+routers.get('/atendimentos', verifyToken, findAllAtendCont);
+routers.get('/atendimentos/:id', verifyToken, findOneAtendCont);
+routers.put('/atendimentos/:id', verifyToken, updateAtendCont);
+routers.delete('/atendimentos/:id', verifyToken, deleteAtendCont);
 
 // CRUD DASHBOARD (opcional)
 
